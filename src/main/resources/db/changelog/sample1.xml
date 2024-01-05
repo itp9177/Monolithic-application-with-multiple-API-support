@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="4" author="bard" >
+        <createTable tableName="video" >
+            <column name="id" type="BINARY(16)" autoIncrement="1">
+                <constraints primaryKey="true" primaryKeyName="id" />
+            </column>
+            <column name="title" type="varchar(255)" defaultOnNull="true"/>
+            <column name="status" type="varchar(50)"/>
+            <column name="visibility" type="varchar(50)"/>
+            <column name="url" type="varchar(225)" defaultOnNull="true" />
+            <column name="created_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+        <createTable tableName="thumbnail_set" >
+            <column name="id" type="BINARY(16)" computed="true" autoIncrement="1">
+                <constraints primaryKey="true" primaryKeyName="id" />
+            </column>
+            <column name="role" type="varchar(50)" defaultOnNull="true"/>
+            <column name="url" type="varchar(225)" defaultOnNull="true"/>
+            <column name="video_id" type="BINARY(16)" defaultOnNull="false">
+                <constraints foreignKeyName="video_id" referencedTableName="video" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <createTable tableName="video_channels" >
+            <column name="id" type="BINARY(16)" autoIncrement="1">
+                <constraints primaryKey="true" primaryKeyName="id"/>
+            </column>
+            <column name="channel_name" type="varchar(225)" defaultOnNull="false"/>
+        </createTable>
+        <createTable tableName="users">
+            <column name="user_id" type="BINARY(16)" defaultOnNull="false" autoIncrement="1">
+                <constraints primaryKeyName="user_is" primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(225)" defaultOnNull="false"/>
+            <column name="created_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" />
+        </createTable>
+        <createTable tableName="comments">
+            <column name="id" type="BINARY(16)" autoIncrement="1" defaultOnNull="false">
+                <constraints primaryKey="true" primaryKeyName="id"/>
+            </column>
+            <column name="content" type="varchar(225)" defaultOnNull="false"/>
+        </createTable>
+        <createTable tableName="user_reactions">
+            <column name="reaction_id" type="BINARY(16)" autoIncrement="1">
+                <constraints primaryKeyName="reaction_id" primaryKey="true"/>
+            </column>
+            <column name="content" type="varchar(50)"/>
+            <column name="value" type="int"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

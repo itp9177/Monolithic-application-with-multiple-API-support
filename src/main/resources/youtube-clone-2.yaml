@@ -1,0 +1,204 @@
+openapi: 3.0.0
+info:
+  title: youtube-clone-2
+  version: 1.0.0
+  description: youtube similar API
+paths:
+  /user:
+    get:
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                exampleone:
+                  value:
+                    name: some text
+                    id: some text
+          description: 'return success user '
+      deprecated: false
+    post:
+      requestBody:
+        description: user create request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: 'user created '
+      summary: create new user
+      description: user.create
+  /videos:
+    summary: videos
+    description: 'video resource '
+  /analytics:
+    summary: analytics
+    description: analytics
+  /channels: {}
+  '/videos/{id}/comments':
+    summary: videos.comments
+  '/videos/{id}/content': {}
+  '/videos/{id}/statistics':
+    parameters:
+      -
+        name: id
+        schema:
+          type: string
+        in: path
+        required: true
+  '/videos/{id}/thumbnails':
+    summary: Video Thumbnails API
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thumbnail_request'
+        required: true
+      parameters:
+        -
+          name: id
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thumbnail'
+          description: '200'
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: without valid token
+      summary: create a thumbnail
+    parameters:
+      -
+        name: id
+        schema:
+          type: string
+        in: path
+        required: true
+  '/videos/{id}/comments/{commentsID}':
+    get:
+      parameters:
+        -
+          name: id
+          schema:
+            type: string
+          in: path
+          required: true
+        -
+          name: commentsID
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+          description: '200'
+    parameters:
+      -
+        name: id
+        schema:
+          type: string
+        in: path
+        required: true
+      -
+        name: commentsID
+        schema:
+          type: string
+        in: path
+        required: true
+components:
+  schemas:
+    User:
+      anyOf:
+        -
+          type: object
+          properties:
+            name:
+              description: users name
+              type: string
+            id:
+              description: uuid
+              type: string
+      title: Root Type for AuthUser
+      description: details object of Auth User
+      type: object
+      example:
+        name: indu
+        id: f81d4fae-7dec-11d2-a4a6-59db221a9615
+    Video:
+      description: video request json object
+      type: object
+    comment:
+      title: Root Type for comment
+      description: a comment resource
+      required:
+        - content
+        - resourceOwner
+      type: object
+      properties:
+        content:
+          description: comment content
+          type: string
+        resourceOwner:
+          description: owner of the comment
+          type: string
+    Thumbnail:
+      title: Root Type for Thumbnail
+      description: Thumnail object
+      type: object
+      properties:
+        id:
+          description: thumbnail id
+          type: string
+        url:
+          description: thumnail url
+          type: string
+      example:
+        id: UUID
+        url: url of thumbnail
+    Thumbnail_request:
+      description: ''
+      required:
+        - url
+      type: object
+      properties:
+        url:
+          description: ''
+          type: string
+        name:
+          description: ''
+          type: string
+    Error:
+      title: Root Type for Error
+      description: Error message
+      type: object
+      properties:
+        error:
+          description: name of the error
+          type: string
+        message:
+          description: message of the error
+          type: string
+      example:
+        error: error name
+        message: error message

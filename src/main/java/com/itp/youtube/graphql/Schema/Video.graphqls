@@ -1,0 +1,7 @@
+type Video {
+    id: ID!
+    title: String!
+    text: String!
+    category: String
+    channel: Channel!
+}

@@ -1,0 +1,10 @@
+type Comment {
+    id : String
+    content : String
+
+}
+
+enum CommentType{
+    reply
+    parent
+}

@@ -1,0 +1,7 @@
+
+type Channel {
+    id: ID!
+    name: String!
+    thumbnail: String
+    videos: [Video]!
+}

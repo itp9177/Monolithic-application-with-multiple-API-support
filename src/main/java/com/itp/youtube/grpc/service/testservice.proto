@@ -1,0 +1,9 @@
+syntax = "proto3";
+package com.itp.youtube.grpc.service;
+option java_multiple_files = true;
+
+import "Message.proto";
+
+service testservice {
+  rpc hello(Message1) returns (Message1);
+}

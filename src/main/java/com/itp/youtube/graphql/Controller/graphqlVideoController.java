@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-public class co {
+public class graphqlVideoController {
 
     @QueryMapping
     public List<Post> recentPosts(@Argument int count, @Argument int offset) {

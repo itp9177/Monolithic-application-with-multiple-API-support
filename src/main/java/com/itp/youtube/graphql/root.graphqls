@@ -1,0 +1,5 @@
+type Query {
+    recentPosts(count: Int, offset: Int): [Post]!
+    recentComments(count:Int ,offset :Int , videoId: String): [Comment]!
+    recentVideos(count: Int, offset: Int): [Video]!
+}

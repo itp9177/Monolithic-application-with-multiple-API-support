@@ -7,10 +7,9 @@ import com.itp.youtube.grpc.dto.mMessage2.Message2;
 import com.itp.youtube.grpc.service.RouteGuideGrpc.RouteGuideImplBase;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.stereotype.Service;
 
 @GrpcService
-public class serv extends RouteGuideImplBase {
+public class ServiceImpl extends RouteGuideImplBase {
 
     @Override
     public void listFeatures(Message2 request, StreamObserver<mMessage1.Message1> responseObserver) {

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReactionsService {
 
-    private final UserReactionRepository userReactionRepository;
+    //private final UserReactionRepository userReactionRepository;
 }

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package grpc.dto;
+option java_package = "com.itp.youtube.grpc.dto";
+option java_outer_classname ="mMessage2";
+
+message Message2 {
+  string firstName = 1;
+  string lastName = 2;
+
+}

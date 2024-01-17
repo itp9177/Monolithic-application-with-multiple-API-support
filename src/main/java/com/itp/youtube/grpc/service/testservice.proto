@@ -1,9 +1,17 @@
 syntax = "proto3";
-package com.itp.youtube.grpc.service;
-option java_multiple_files = true;
 
-import "Message.proto";
+import "dto/indu.proto";
+import "dto/mark.proto";
+option java_package = "com.itp.youtube.grpc.service";
 
-service testservice {
-  rpc hello(Message1) returns (Message1);
+package grpc.service;
+
+service RouteGuide {
+
+  rpc GetFeature(grpc.dto.Message1) returns (grpc.dto.Message2) {}
+
+
+  rpc ListFeatures(grpc.dto.Message2) returns (grpc.dto.Message1) {}
+
 }
+

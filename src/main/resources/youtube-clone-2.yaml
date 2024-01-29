@@ -4,32 +4,15 @@ info:
   version: 1.0.0
   description: Monolithic API POC
 paths:
-  /channels:
-    summary: channels
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/channel'
-        required: true
-      responses:
-        '200':
-          description: '200'
-  '/channels/{channelId}':
-    parameters:
-      -
-        name: channelId
-        in: path
-        required: true
-  /videos:
+  /api/v1/videos:
     summary: videos
     servers:
       -
         url: 'http://localhost:8081'
         description: development
     get:
-      tags: []
+      tags:
+        - videos
       parameters:
         -
           name: categories
@@ -64,7 +47,7 @@ paths:
         -
           token: []
           oAuth2: []
-      summary: videos.list
+      summary: list
       description: list
     put:
       requestBody:
@@ -73,6 +56,8 @@ paths:
             schema:
               $ref: '#/components/schemas/videoRequest'
         required: true
+      tags:
+        - videos
       responses:
         '200':
           content:
@@ -83,7 +68,7 @@ paths:
       security:
         -
           token: []
-      summary: videos
+      summary: update
     post:
       requestBody:
         content:
@@ -91,6 +76,8 @@ paths:
             schema:
               $ref: '#/components/schemas/initiateVideo'
         required: true
+      tags:
+        - videos
       responses:
         '201':
           content:
@@ -105,9 +92,11 @@ paths:
       security:
         -
           token: []
-      summary: videos
-  '/videos/{videoId}':
+      summary: create
+  '/api/v1/videos/{videoId}':
     get:
+      tags:
+        - videos
       parameters:
         -
           name: videoId
@@ -122,10 +111,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/videoRequest'
           description: '200'
-      summary: videos
-  '/videos/{videoId}/comments':
+      summary: Get
+  '/api/v1/videos/{videoId}/comments':
     summary: videos.comments
     get:
+      tags:
+        - videos.comments
       parameters:
         -
           name: videoId
@@ -140,9 +131,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListCommentsResponse'
           description: '200'
-      summary: videos.comments.list
-  '/videos/{videoId}/comments/{commentId}': {}
-  /users:
+      summary: List
+  /api/v1/users:
     post:
       requestBody:
         content:
@@ -150,10 +140,55 @@ paths:
             schema:
               $ref: '#/components/schemas/channel'
         required: true
+      tags:
+        - users
       responses:
         '200':
           description: '200'
-  '/users/{userId}': {}
+      summary: create
+  '/api/v1/users/{userId}': {}
+  '/api/v1/videos/{videoId}/comments/{commentId}': {}
+  '/api/v1/channels/{channelId}':
+    parameters:
+      -
+        name: channelId
+        in: path
+        required: true
+  /api/v1/channels:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
+        required: true
+      tags:
+        - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/channel'
+          description: '200'
+      summary: update
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
+        required: true
+      tags:
+        - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/channel'
+          description: '200'
+      summary: create
 components:
   schemas:
     videoRequest:
@@ -205,6 +240,7 @@ components:
         channelId:
           description: ''
           type: string
+          readOnly: false
       example: uuid
     EducationChannel:
       description: ''
@@ -267,6 +303,7 @@ components:
       required:
         - name
         - channelType
+        - userId
       type: object
       properties:
         name:
@@ -277,6 +314,9 @@ components:
           enum:
             - EDUCATION
             - ENTERTAINMENT
+          type: string
+        userId:
+          description: ''
           type: string
     ListVideoResponse:
       description: ''

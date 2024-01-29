@@ -1,107 +1,116 @@
-openapi: 3.0.0
+openapi: 3.0.2
 info:
-  title: youtube-clone-2
+  title: Monolithic API POC
   version: 1.0.0
-  description: youtube similar API
+  description: Monolithic API POC
 paths:
-  /user:
-    get:
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-              examples:
-                exampleone:
-                  value:
-                    name: some text
-                    id: some text
-          description: 'return success user '
-      deprecated: false
+  /channels:
+    summary: channels
     post:
       requestBody:
-        description: user create request
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/channel'
         required: true
       responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: 'user created '
-      summary: create new user
-      description: user.create
+        '200':
+          description: '200'
+  '/channels/{channelId}':
+    parameters:
+      -
+        name: channelId
+        in: path
+        required: true
   /videos:
     summary: videos
-    description: 'video resource '
-  /analytics:
-    summary: analytics
-    description: analytics
-  /channels: {}
-  '/videos/{id}/comments':
-    summary: videos.comments
-  '/videos/{id}/content': {}
-  '/videos/{id}/statistics':
-    parameters:
+    servers:
       -
-        name: id
-        schema:
-          type: string
-        in: path
+        url: 'http://localhost:8081'
+        description: development
+    get:
+      tags: []
+      parameters:
+        -
+          name: categories
+          description: ''
+          schema:
+            type: array
+            items:
+              type: string
+          in: query
+        -
+          name: pageSize
+          description: ''
+          schema:
+            type: integer
+          in: query
+          required: true
+        -
+          name: pageNumber
+          description: ''
+          schema:
+            type: integer
+          in: query
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListVideoResponse'
+          description: '200'
+      security:
+        -
+          token: []
+          oAuth2: []
+      summary: videos.list
+      description: list
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/videoRequest'
         required: true
-  '/videos/{id}/thumbnails':
-    summary: Video Thumbnails API
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/videoRequest'
+          description: '201'
+      security:
+        -
+          token: []
+      summary: videos
     post:
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Thumbnail_request'
+              $ref: '#/components/schemas/initiateVideo'
         required: true
-      parameters:
-        -
-          name: id
-          schema:
-            type: string
-          in: path
-          required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thumbnail'
-          description: '200'
+                $ref: '#/components/schemas/initiateVideo'
+          description: created
+        '400':
+          description: '400'
         '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: without valid token
-      summary: create a thumbnail
-    parameters:
-      -
-        name: id
-        schema:
-          type: string
-        in: path
-        required: true
-  '/videos/{id}/comments/{commentsID}':
+          description: '401'
+      security:
+        -
+          token: []
+      summary: videos
+  '/videos/{videoId}':
     get:
       parameters:
         -
-          name: id
-          schema:
-            type: string
-          in: path
-          required: true
-        -
-          name: commentsID
+          name: videoId
           schema:
             type: string
           in: path
@@ -111,94 +120,207 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/comment'
+                $ref: '#/components/schemas/videoRequest'
           description: '200'
-    parameters:
-      -
-        name: id
-        schema:
-          type: string
-        in: path
+      summary: videos
+  '/videos/{videoId}/comments':
+    summary: videos.comments
+    get:
+      parameters:
+        -
+          name: videoId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCommentsResponse'
+          description: '200'
+      summary: videos.comments.list
+  '/videos/{videoId}/comments/{commentId}': {}
+  /users:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
         required: true
-      -
-        name: commentsID
-        schema:
-          type: string
-        in: path
-        required: true
+      responses:
+        '200':
+          description: '200'
+  '/users/{userId}': {}
 components:
   schemas:
-    User:
-      anyOf:
+    videoRequest:
+      description: ''
+      type: object
+      allOf:
         -
+          required:
+            - tumbnails
+            - visibility
           type: object
           properties:
-            name:
-              description: users name
+            tumbnails:
+              description: thumbails
+              maxItems: 3
+              minItems: 1
+              uniqueItems: true
+              type: array
+              items:
+                format: byte
+                type: string
+            visibility:
+              description: ''
+              enum:
+                - PUBLIC
+                - PRIVATE
+                - UNLISTED
               type: string
-            id:
-              description: uuid
-              type: string
-      title: Root Type for AuthUser
-      description: details object of Auth User
-      type: object
-      example:
-        name: indu
-        id: f81d4fae-7dec-11d2-a4a6-59db221a9615
-    Video:
-      description: video request json object
-      type: object
-    comment:
-      title: Root Type for comment
-      description: a comment resource
+              readOnly: true
+        -
+          $ref: '#/components/schemas/initiateVideo'
+    initiateVideo:
+      description: initiate a video
       required:
-        - content
-        - resourceOwner
+        - title
+        - videoId
+        - channelId
       type: object
       properties:
-        content:
-          description: comment content
+        title:
+          description: video
+          maxLength: 256
+          minLength: 16
           type: string
-        resourceOwner:
-          description: owner of the comment
-          type: string
-    Thumbnail:
-      title: Root Type for Thumbnail
-      description: Thumnail object
-      type: object
-      properties:
-        id:
-          description: thumbnail id
-          type: string
-        url:
-          description: thumnail url
-          type: string
-      example:
-        id: UUID
-        url: url of thumbnail
-    Thumbnail_request:
-      description: ''
-      required:
-        - url
-      type: object
-      properties:
-        url:
+        videoId:
           description: ''
           type: string
+          readOnly: true
+        channelId:
+          description: ''
+          type: string
+      example: uuid
+    EducationChannel:
+      description: ''
+      type: object
+      allOf:
+        -
+          required:
+            - instituationName
+            - registeredAddress
+            - website
+            - channelType
+          type: object
+          properties:
+            instituationName:
+              description: ''
+              type: string
+            registeredAddress:
+              description: ''
+              maxLength: 100
+              type: string
+            website:
+              description: ''
+              maxLength: 50
+              type: string
+            channelType:
+              description: ''
+              type: string
+        -
+          $ref: '#/components/schemas/videoChannel'
+    EntertainmentChannel:
+      description: ''
+      type: object
+      allOf:
+        -
+          required:
+            - address
+            - channelType
+          type: object
+          properties:
+            address:
+              description: ''
+              type: string
+            channelType:
+              description: ''
+              type: string
+        -
+          $ref: '#/components/schemas/videoChannel'
+    channel:
+      oneOf:
+        -
+          $ref: '#/components/schemas/EducationChannel'
+        -
+          $ref: '#/components/schemas/EntertainmentChannel'
+      discriminator:
+        propertyName: channelType
+      description: ''
+      type: object
+    videoChannel:
+      description: ''
+      required:
+        - name
+        - channelType
+      type: object
+      properties:
         name:
           description: ''
           type: string
-    Error:
-      title: Root Type for Error
-      description: Error message
+        channelType:
+          description: ''
+          enum:
+            - EDUCATION
+            - ENTERTAINMENT
+          type: string
+    ListVideoResponse:
+      description: ''
+      required:
+        - data
+        - PageSize
+        - pageNumber
       type: object
       properties:
-        error:
-          description: name of the error
-          type: string
-        message:
-          description: message of the error
-          type: string
+        data:
+          description: requested List
+          maxItems: 50
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/videoRequest'
+          readOnly: true
+        PageSize:
+          description: ''
+          type: integer
+        pageNumber:
+          description: ''
+          type: integer
       example:
-        error: error name
-        message: error message
+        -
+          data:
+            - {}
+            - {}
+          PageSize: 51
+          pageNumber: 76
+    ListCommentsResponse:
+      description: ''
+      type: object
+  securitySchemes:
+    token:
+      scheme: bearer
+      type: http
+    oAuth2:
+      flows:
+        authorizationCode:
+          authorizationUrl: 'http://mysevice/auth'
+          tokenUrl: 'http://mysevice/auth1'
+          refreshUrl: 'http://mysevice/auth2'
+          scopes:
+            scope-1: ''
+            scope-2: ''
+      type: oauth2

@@ -4,4 +4,11 @@ type Video {
     text: String!
     category: String
     channel: Channel!
+    comments: [Comment]
+    stat : Stat
+}
+
+type Stat{
+    likes : Int!
+    dislikes : Int!
 }

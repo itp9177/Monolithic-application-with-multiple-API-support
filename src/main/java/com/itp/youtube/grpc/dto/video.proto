@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package grpc.dto;
+option java_package = "com.itp.youtube.grpc.dto";
+option java_outer_classname ="outterVideo";
+
+message Video {
+  sint64 videoId = 1;
+  string title = 2;
+
+}

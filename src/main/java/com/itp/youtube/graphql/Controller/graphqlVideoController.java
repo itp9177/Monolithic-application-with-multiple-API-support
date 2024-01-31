@@ -6,7 +6,6 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-
 import java.util.List;
 
 @Controller
@@ -30,7 +29,7 @@ public class graphqlVideoController {
         return List.of(ab,ab1);
     }
 
-    @SchemaMapping
+    @SchemaMapping(field = "author",typeName = "Post")
     public Author author(Post post) {
         Author newAuthor = new Author();
         newAuthor.setId("uuidauth");

@@ -1,6 +1,8 @@
 type Comment {
-    id : String
+    id : ID!
+    videoID: ID!
     content : String
+    commentType : CommentType!
 
 }
 

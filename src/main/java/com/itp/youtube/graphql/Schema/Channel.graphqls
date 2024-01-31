@@ -1,7 +1,8 @@
 
 type Channel {
-    id: ID!
+    channelID: ID!
+    userID:ID!
     name: String!
-    thumbnail: String
+    location : String!
     videos: [Video]!
 }

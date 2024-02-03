@@ -4,8 +4,7 @@
 #### With docker-composer
 
 ```javascript
-wget https://raw.githubusercontent.com/itp9177/Spring-MVC-Rest-Grpc-Graphql-Monolithic-POC/main/docker-compose.yml
-
+git clone https://github.com/itp9177/Spring-MVC-Rest-Grpc-Graphql-Monolithic-POC.git
 docker-compose -f docker-compose.yml up
 ```
 

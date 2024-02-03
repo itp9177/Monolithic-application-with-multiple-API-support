@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.3  # keycloak image
+    container_name: keycloakvideoapp  # Set the container name
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "8080:8080"  # keycloak instance on localhost
+    environment:
+      KEYCLOAK_ADMIN: admin1 # keyclaok administrator username
+      KEYCLOAK_ADMIN_PASSWORD: admin1  # keyclaok  administrator password
+      KC_FEATURES: scripts
+    volumes:
+      - ./data/keycloak_data:/opt/keycloak/data/import  # Mount the realm data volume
+    command: 
+      - start-dev
+      - --import-realm  # Run Keycloak with import realm option
+  Mymysql:
+    image: mysql:latest
+    container_name: videoappmysql
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: videoapp
+      MYSQL_USER: videoapp
+      MYSQL_PASSWORD: videoapp
+    volumes:
+      - ./data/mysql_data:/var/lib/mysql
+  myapp:
+    image: localhost:5000/videoapp:latest4 # local repository url of video image
+    container_name: myapp-container
+    ports:
+      - "8081:8081"
+      - "9090:9090"
+    depends_on:
+      Mymysql:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+
+    
+    
+

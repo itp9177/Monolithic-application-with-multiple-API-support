@@ -14,4 +14,5 @@ public class ChannelController implements ChannelsApi {
         System.out.println(channel);
         return ResponseEntity.ok(null);
     }
+
 }

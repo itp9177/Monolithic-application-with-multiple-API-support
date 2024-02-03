@@ -1,13 +1,15 @@
 package com.itp.youtube.Rest.controller;
-/**
+
 import com.itp.openapi.api.VideosApi;
-import com.itp.openapi.model.Comment;
-import com.itp.openapi.model.Thumbnail;
-import com.itp.openapi.model.ThumbnailRequest;
-import com.itp.openapi.model.Video;
+
+import com.itp.openapi.model.InitiateVideo;
+import com.itp.openapi.model.ListVideoResponse;
+import com.itp.openapi.model.VideoRequest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -15,21 +17,27 @@ public class VideoController implements VideosApi {
 
 
     @Override
-    public ResponseEntity<Comment> videosIdCommentsCommentsIDGet(String id, String commentsID) {
-        System.out.println(id);
-        System.out.println(commentsID);
-        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
-        //return VideosApi.super.videosIdCommentsCommentsIDGet(id, commentsID);
+    public ResponseEntity<InitiateVideo> videosPost(InitiateVideo initiateVideo) {
+        return VideosApi.super.videosPost(initiateVideo);
     }
 
     @Override
-    public ResponseEntity<Thumbnail> videosIdThumbnailsPost(String id, ThumbnailRequest thumbnailRequest) {
-
-        System.out.println(thumbnailRequest.getName());
-        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
-        //return VideosApi.super.videosIdThumbnailsPost(id, thumbnailRequest);
+    public ResponseEntity<ListVideoResponse> videosGet(Integer pageSize, Integer pageNumber, List<String> categories) {
+        return VideosApi.super.videosGet(pageSize, pageNumber, categories);
     }
 
+    @Override
+    public ResponseEntity<VideoRequest> videosVideoIdGet(String videoId) {
+        return VideosApi.super.videosVideoIdGet(videoId);
+    }
 
+    @Override
+    public ResponseEntity<Object> videosVideoIdCommentsGet(String videoId) {
+        return VideosApi.super.videosVideoIdCommentsGet(videoId);
+    }
+
+    @Override
+    public ResponseEntity<VideoRequest> videosPut(VideoRequest videoRequest) {
+        return VideosApi.super.videosPut(videoRequest);
+    }
 }
-**/

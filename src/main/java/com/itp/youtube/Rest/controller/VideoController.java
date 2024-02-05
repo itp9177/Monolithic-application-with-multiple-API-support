@@ -2,6 +2,7 @@ package com.itp.youtube.Rest.controller;
 
 import com.itp.openapi.api.VideosApi;
 
+import com.itp.openapi.model.Comment;
 import com.itp.openapi.model.InitiateVideo;
 import com.itp.openapi.model.ListVideoResponse;
 import com.itp.openapi.model.VideoRequest;
@@ -32,8 +33,8 @@ public class VideoController implements VideosApi {
     }
 
     @Override
-    public ResponseEntity<Object> videosVideoIdCommentsGet(String videoId) {
-        return VideosApi.super.videosVideoIdCommentsGet(videoId);
+    public ResponseEntity<Comment> videosVideoIdCommentsCommentIdGet(String videoId, String commentId) {
+        return VideosApi.super.videosVideoIdCommentsCommentIdGet(videoId, commentId);
     }
 
     @Override

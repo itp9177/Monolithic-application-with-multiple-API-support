@@ -277,6 +277,7 @@
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
+                                <withSeparateModelsAndApi>true</withSeparateModelsAndApi>
                             </configOptions>
                             <apiPackage>com.itp.openapi.api</apiPackage>
                             <modelPackage>com.itp.openapi.model</modelPackage>

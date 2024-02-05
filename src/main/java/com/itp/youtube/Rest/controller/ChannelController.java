@@ -1,5 +1,5 @@
 package com.itp.youtube.Rest.controller;
-
+/*
 import com.itp.openapi.api.ChannelsApi;
 import com.itp.openapi.model.Channel;
 import org.springframework.http.ResponseEntity;
@@ -16,3 +16,4 @@ public class ChannelController implements ChannelsApi {
     }
 
 }
+*/

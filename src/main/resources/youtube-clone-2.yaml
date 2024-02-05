@@ -4,7 +4,66 @@ info:
   version: 1.0.0
   description: Monolithic API POC
 paths:
-  /api/v1/videos:
+  /channels:
+    summary: channels
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
+        required: true
+      tags:
+        - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/channel'
+          description: '200'
+      summary: update
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
+        required: true
+      tags:
+        - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/channel'
+          description: '200'
+      summary: create
+  '/channels/{channelId}':
+    summary: channelId
+    parameters:
+      -
+        name: channelId
+        in: path
+        required: true
+  /users:
+    summary: users
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/channel'
+        required: true
+      tags:
+        - users
+      responses:
+        '200':
+          description: '200'
+      summary: create
+  '/users/{userId}': {}
+  /videos:
     summary: videos
     servers:
       -
@@ -47,8 +106,8 @@ paths:
         -
           token: []
           oAuth2: []
-      summary: list
-      description: list
+      summary: List
+      description: list of Videos
     put:
       requestBody:
         content:
@@ -93,7 +152,7 @@ paths:
         -
           token: []
       summary: create
-  '/api/v1/videos/{videoId}':
+  '/videos/{videoId}':
     get:
       tags:
         - videos
@@ -112,7 +171,7 @@ paths:
                 $ref: '#/components/schemas/videoRequest'
           description: '200'
       summary: Get
-  '/api/v1/videos/{videoId}/comments':
+  '/videos/{videoId}/comments':
     summary: videos.comments
     get:
       tags:
@@ -132,63 +191,92 @@ paths:
                 $ref: '#/components/schemas/ListCommentsResponse'
           description: '200'
       summary: List
-  /api/v1/users:
     post:
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/channel'
+              $ref: '#/components/schemas/comment'
         required: true
       tags:
-        - users
+        - videos.comments
+      parameters:
+        -
+          name: videoId
+          schema:
+            type: string
+          in: path
+          required: true
       responses:
         '200':
           description: '200'
-      summary: create
-  '/api/v1/users/{userId}': {}
-  '/api/v1/videos/{videoId}/comments/{commentId}': {}
-  '/api/v1/channels/{channelId}':
+      summary: Create
+  '/videos/{videoId}/comments/{commentId}':
+    get:
+      tags:
+        - videos.comments
+      parameters:
+        -
+          name: videoId
+          schema:
+            type: string
+          in: path
+          required: true
+        -
+          name: commentId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+          description: '200'
+      summary: GET
+    delete:
+      tags:
+        - videos.comments
+      parameters:
+        -
+          name: videoId
+          schema:
+            type: string
+          in: path
+          required: true
+        -
+          name: commentId
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          description: '200'
+      summary: Delete
+  '/videos/{videoId}/upload':
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+        required: true
+      tags:
+        - videos
+      responses:
+        '201':
+          description: '201'
+      summary: upload
     parameters:
       -
-        name: channelId
+        name: videoId
+        schema:
+          type: string
         in: path
         required: true
-  /api/v1/channels:
-    put:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/channel'
-        required: true
-      tags:
-        - channels
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/channel'
-          description: '200'
-      summary: update
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/channel'
-        required: true
-      tags:
-        - channels
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/channel'
-          description: '200'
-      summary: create
 components:
   schemas:
     videoRequest:
@@ -349,7 +437,36 @@ components:
           pageNumber: 76
     ListCommentsResponse:
       description: ''
+      required:
+        - pageNumber
+        - pageSize
+        - data
       type: object
+      properties:
+        pageNumber:
+          description: ''
+          type: integer
+        pageSize:
+          description: ''
+          type: integer
+        data:
+          description: ''
+          type: array
+          items:
+            $ref: '#/components/schemas/comment'
+    comment:
+      description: ''
+      required:
+        - commentId
+        - content
+      type: object
+      properties:
+        commentId:
+          description: ''
+          type: string
+        content:
+          description: ''
+          type: string
   securitySchemes:
     token:
       scheme: bearer

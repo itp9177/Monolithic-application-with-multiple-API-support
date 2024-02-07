@@ -6,7 +6,10 @@ import com.itp.openapi.model.Comment;
 import com.itp.openapi.model.InitiateVideo;
 import com.itp.openapi.model.ListVideoResponse;
 import com.itp.openapi.model.VideoRequest;
-import org.springframework.http.HttpStatusCode;
+import com.itp.youtube.service.VideoChannelService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +19,15 @@ import java.util.List;
 @RestController
 public class VideoController implements VideosApi {
 
+    private VideoChannelService videoChannelService;
 
+    public VideoController(VideoChannelService videoChannelService) {
+        this.videoChannelService = videoChannelService;
+    }
+
+    public boolean test1(String a){
+       return videoChannelService.getChannelById(a);
+    }
     @Override
     public ResponseEntity<InitiateVideo> videosPost(InitiateVideo initiateVideo) {
         return VideosApi.super.videosPost(initiateVideo);

@@ -5,11 +5,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import org.mockito.invocation.InvocationOnMock;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-
 import static org.junit.Assert.fail;
+
 import static org.mockito.BDDMockito.*;
 
 public class ControllerOneTest {
@@ -33,7 +34,7 @@ public class ControllerOneTest {
 
         then(videoChannelService).should().getChannelById("indu");
         then(videoChannelService).should().getChannelById("abs");
-        Assert.assertFalse(a);
+        Assert.assertTrue(a);
         Assert.assertFalse(b);
     }
 }

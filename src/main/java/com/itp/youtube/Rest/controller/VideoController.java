@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class VideoController implements VideosApi {
 
-    private VideoChannelService videoChannelService;
+    private final VideoChannelService videoChannelService;
 
     public VideoController(VideoChannelService videoChannelService) {
         this.videoChannelService = videoChannelService;

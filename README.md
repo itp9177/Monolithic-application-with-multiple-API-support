@@ -3,6 +3,20 @@
 ```javascript
 https://itp9177.github.io/
 ```
+## Idea behind the architecture
+
+- Domain driven design(DDD) and hexagonaHexagonal architecture
+
+  * The key idea is, that the business logic(domain logic) stays separate from the APIs and database layer by following the hexagonaHexagonal architecture and then designing the domain logic following the DDD principles.
+
+- Multiple API support
+
+  * The REST, MVC, GraphQL, and gRPC APIs each expose the core application 
+
+- Separate security config for each API
+
+  * Each API layer has its own security configuration by leveraging spring-security and keycloak for granular security.
+
 
 ## Quick Start
 

@@ -6,7 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <changeSet id="4" author="bard" >
+    <changeSet id="4" author="indu" >
         <createTable tableName="video" >
             <column name="id" type="BINARY(16)" autoIncrement="1">
                 <constraints primaryKey="true" primaryKeyName="id" />

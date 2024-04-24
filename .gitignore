@@ -34,3 +34,6 @@ build/
 .mvn/
 mvnw.cmd
 mvnw
+
+/data/mysql_data/
+/data/mysql_data/**

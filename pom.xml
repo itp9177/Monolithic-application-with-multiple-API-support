@@ -328,42 +328,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>github</id>
-        </profile>
-        <profile>
-            <id>local-docker-registry</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.4.0</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <from>
-                                <image>http://localhost:5000/eclipse-temurin:21</image>
-                            </from>
-                            <to>
-                                <image>localhost:5000/videoapp</image>
-                                <tags>
-                                    <tag>latest4</tag>
-                                </tags>
-                            </to>
-                            <allowInsecureRegistries>true</allowInsecureRegistries>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

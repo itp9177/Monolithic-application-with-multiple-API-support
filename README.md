@@ -51,7 +51,7 @@ localhost:8080
 - [x]   initial openapi3 specs
 - [x]  initial grpghql support
 - [x]  initial protobuf/grpc support
-- [ ]  grpc security intergrate to spring security
+- [x]  grpc security intergrate to spring security
 - [ ]  update restapi spec + implement functionality
 - [ ]  demo mvc frontend
 - [ ]  grpc service implementation
